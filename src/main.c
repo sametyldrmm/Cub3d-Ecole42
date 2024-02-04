@@ -86,11 +86,14 @@ int	main(int argc, char **argv)
 	t_map	*map;
 	t_data2	data2;
 
+	// char *os_name;
+	data.os_name = ft_strdup("LINUX");
+
 	map = (t_map *)malloc(sizeof(t_map));
 	start_data(argc, argv, map, &data2);
 	data.mlx = mlx_init();
 	data.mlx_win = mlx_new_window(data.mlx,
-			WIN_WIDTH, WIN_HEIGHT, "wolfestain 3d");
+			WIN_WIDTH, WIN_HEIGHT, "CUB 3D");
 	data.screen.img = mlx_new_image(data.mlx, WIN_WIDTH, WIN_HEIGHT);
 	data.screen.width = WIN_WIDTH;
 	data.screen.height = WIN_HEIGHT;
@@ -98,8 +101,12 @@ int	main(int argc, char **argv)
 			&data.screen.bbp, &data.screen.line_len, &data.screen.endian);
 	get_data(&data, map);
 	ft_start_game(&data, map);
-	mlx_hook(data.mlx_win, 2, 0, ft_event_up, &data);
+
+	// mlx_key_hook(data.mlx_win, ft_event_down, &data);
+	mlx_hook(data.mlx_win, 2, 0, ft_event_up_mac, &data);
 	mlx_hook(data.mlx_win, 3, 0, ft_event_down, &data);
+	mlx_key_hook(data.mlx_win, ft_event_up_linux, &data);
+
 	mlx_loop_hook(data.mlx, ft_update, &data);
 	mlx_hook(data.mlx_win, 17, 0, func_exit, 0);
 	mlx_loop(data.mlx);

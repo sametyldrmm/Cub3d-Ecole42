@@ -3,7 +3,7 @@ NAME	= libft
 CC		= gcc
 INC		= libft.h
 
-CFLAGS	= -Wall -Wextra -Werror
+CFLAGS	= 
 ARFLAGS = -rcs
 RM		= rm -rf
 

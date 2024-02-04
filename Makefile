@@ -1,57 +1,56 @@
-NAME			=	cub3D
-INC				=	./inc/
-LIBFT			=	libft/libft.a
+NAME		= cub3D
+INC			= ./inc/
+LIBFT		= libft/libft.a
 
-RESET			=	\033[0m
-GREEN			=	\033[32m
-YELLOW			=	\033[33m
-BLUE			=	\033[34m
-RED				=	\033[31m
+RESET		= \033[0m
+GREEN		= \033[32m
+YELLOW		= \033[33m
+BLUE		= \033[34m
+RED			= \033[31m
 
-SRCS			=	$(shell find src -type f -name "*.c")
-OBJS			=	$(SRCS:src/%.c=src/bin/%.o)
-BIN				=	./src/bin
-LIB				=	./minilibx_macos/libmlx.a
+ifeq ($(shell uname -s), Linux)
+	MLX = minilibx_linux
+	MLX_FLAGS = $(MLX)/libmlx_Linux.a -lXext -lX11 -lm -lz
+else
+	MLX = minilibx_macos
+	MLX_FLAGS = -framework OpenGL -framework AppKit $(MLX)/libmlx.a
+endif
 
-CC				=	@gcc
-RM				=	@rm -rf
-CFLAGS			=	-Wall -Wextra -Werror
-MLXFLAGS		=	-framework OpenGL -framework AppKit
+SRCS		= $(shell find src -type f -name "*.c")
+OBJS		= $(SRCS:src/%.c=src/bin/%.o)
+BIN			= ./src/bin
+LIB			= $(MLX)/libmlx.a
 
-all:			$(LIB) $(LIBFT) $(NAME)
+CC			= gcc
+RM			= rm -rf
+CFLAGS		= #-Wall -Wextra -Werror
 
-$(LIB) : 
-		@make -C ./mlx
+all: $(NAME)
 
 $(BIN):
-	@mkdir $(BIN)
+	mkdir -p $(BIN)
 
 $(LIBFT):
-	@make -C libft/
+	make -C libft/
 
-$(NAME):	$(BIN) $(LIBFT) $(OBJS)
-			@echo "$(YELLOW)>- Compiling... [$(NAME)] $(RESET)"
-			@$(CC) $(CFLAGS) $(LIBFT) $(OBJS) $(MLXFLAGS) -o $(NAME) $(LIB)
-			@echo "$(GREEN)>- Finished! $(RESET)"
+$(NAME): $(BIN) $(LIBFT) $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(MLX_FLAGS) -o $(NAME)
+
+$(BIN)/%.o: src/%.c
+	mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -c $< -o $@ -I$(INC)
 
 clean:
-			@echo "$(RED)>- Deleting... [$(NAME)] $(RESET)"
-			@$(RM) $(OBJS)
-			@$(RM) $(BIN)
-			@make clean -C libft/
-			@echo "$(BLUE)>- Successfully! $(RESET)"
+	$(RM) $(BIN)
+	make clean -C libft/
 
-fclean:			clean
-				@$(RM) $(NAME)
-				@make fclean -C libft/
+fclean: clean
+	$(RM) $(NAME)
+	make fclean -C libft/
 
-re:				fclean $(NAME)
+re: fclean all
 
-$(BIN)%.o: src/%.c
-	@mkdir -p $(shell dirname $@)
-	@$(CC) $(CFLAGS) -c $< -o $@ -I$(INC)
+norm:
+	norminette *.[ch]
 
-norm:			
-				norminette *.[ch]
-
-.PHONY:			all clean fclean re bonus
+.PHONY: all clean fclean re norm

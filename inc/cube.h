@@ -93,6 +93,8 @@ typedef struct s_data
 	float		look;
 	int			active_img;
 	t_keys		keys;
+
+	char *os_name;
 }	t_data;
 
 //det_file.c
@@ -130,7 +132,8 @@ void	ft_render(t_data *data);
 //mov.c
 int		ft_collision_detect(t_data *data, t_vector2f pos);
 void	ft_move(t_data *data, t_vector2f move);
-int		ft_event_up(int key, t_data *data);
+int		ft_event_up_mac(int key, t_data *data);
+int		ft_event_up_linux(int key, t_data *data);
 int		ft_event_down(int key, t_data *data);
 //lastfile.c
 int		get_characther_x(t_data2 *data);
