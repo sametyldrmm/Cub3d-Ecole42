@@ -24,5 +24,11 @@ The project can be used by executing the binary file with a .cub file as an argu
 - Ability to move the cube in any direction
 - Ability to rotate the cube
 
+## Game PNG
+![](https://github.com/sametyldrmm/Cub3d-Ecole42/blob/master/GamePng/1.png)
+![](https://github.com/sametyldrmm/Cub3d-Ecole42/blob/master/GamePng/2.png)
+![](https://github.com/sametyldrmm/Cub3d-Ecole42/blob/master/GamePng/3.png)
+![](https://github.com/sametyldrmm/Cub3d-Ecole42/blob/master/GamePng/4.png)
+
 ## Contributing
 If you would like to contribute to the project, feel free to fork the repository and make a pull request. Your contributions are greatly appreciated.
